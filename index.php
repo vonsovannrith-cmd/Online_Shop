@@ -25,6 +25,13 @@ body{
     margin:0;
     font-family:Arial;
     background:#f4f6f9;
+    transition:0.3s;
+}
+
+/* DARK MODE BODY */
+body.dark{
+    background:#111827;
+    color:white;
 }
 
 /* HEADER */
@@ -42,12 +49,31 @@ body{
     font-weight:bold;
 }
 
+/* MENU */
 .menu a{
     color:white;
     margin-left:15px;
     text-decoration:none;
 }
 
+/* DARK MODE BUTTON */
+.dark-btn{
+    margin-left:15px;
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#facc15;
+    font-weight:bold;
+}
+
+/* DARK BUTTON STYLE */
+body.dark .dark-btn{
+    background:#2563eb;
+    color:white;
+}
+
+/* CART */
 .cart{
     position:relative;
 }
@@ -76,6 +102,13 @@ body{
     border:1px solid #ccc;
 }
 
+/* DARK SEARCH */
+body.dark .search-bar input{
+    background:#1f2937;
+    color:white;
+    border:1px solid #374151;
+}
+
 /* CATEGORY */
 .categories{
     text-align:center;
@@ -94,6 +127,17 @@ body{
 .categories button:hover{
     background:#2563eb;
     color:white;
+}
+
+/* DARK CATEGORY */
+body.dark .categories button{
+    background:#374151;
+    color:white;
+}
+
+body.dark .categories button.active,
+body.dark .categories button:hover{
+    background:#2563eb;
 }
 
 /* PRODUCTS */
@@ -115,6 +159,13 @@ body{
 
 .product:hover{
     transform:translateY(-6px);
+}
+
+/* DARK PRODUCT */
+body.dark .product{
+    background:#1f2937;
+    color:white;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4);
 }
 
 .product img{
@@ -140,6 +191,11 @@ body{
     overflow:hidden;
 }
 
+/* DARK TITLE */
+body.dark .product-name{
+    color:white;
+}
+
 /* PRICE */
 .price{
     color:#dc2626;
@@ -151,6 +207,11 @@ body{
 .stock{
     color:#6b7280;
     font-size:13px;
+}
+
+/* DARK STOCK */
+body.dark .stock{
+    color:#d1d5db;
 }
 
 /* BUTTON */
@@ -169,7 +230,7 @@ body{
 }
 
 .buy.login{
-    background:#9ca3af;
+    background: green;
 }
 
 /* NO PRODUCT */
@@ -207,6 +268,9 @@ body{
         <a href="cart.php" class="cart">
             🛒 <span><?= $cartCount ?></span>
         </a>
+
+        <!-- DARK MODE BUTTON -->
+        <button class="dark-btn" onclick="toggleDarkMode()" id="darkBtn">🌙 Dark</button>
     </div>
 </div>
 
@@ -234,7 +298,7 @@ body{
      data-name="<?= strtolower(htmlspecialchars($p['name'])) ?>"
      data-category="<?= htmlspecialchars($p['category_name']) ?>">
 
-    <a href="product_detail.php?id=<?= $p['id'] ?>">
+    <a href="product_detail.php?id=<?= $p['id'] ?>" style="text-decoration:none;">
         <img src="image/<?= htmlspecialchars($p['image']) ?>">
         <div class="product-name">
             <?= htmlspecialchars($p['name']) ?>
@@ -298,6 +362,27 @@ function filterAll(){
     });
 
     document.getElementById("noProduct").style.display = found ? "none" : "block";
+}
+
+/* DARK MODE FUNCTION */
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("darkMode", "enabled");
+        document.getElementById("darkBtn").innerHTML = "☀️ Light";
+    }else{
+        localStorage.setItem("darkMode", "disabled");
+        document.getElementById("darkBtn").innerHTML = "🌙 Dark";
+    }
+}
+
+/* LOAD DARK MODE SETTING */
+window.onload = function(){
+    if(localStorage.getItem("darkMode") === "enabled"){
+        document.body.classList.add("dark");
+        document.getElementById("darkBtn").innerHTML = "☀️ Light";
+    }
 }
 </script>
 
