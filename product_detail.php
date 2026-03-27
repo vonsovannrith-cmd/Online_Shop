@@ -21,6 +21,13 @@ body{
     background:#f9f9f9;
     margin:0;
     padding:0;
+    transition:0.3s;
+}
+
+/* DARK MODE BODY */
+body.dark{
+    background:#111827;
+    color:white;
 }
 
 /* Container */
@@ -34,6 +41,13 @@ body{
     flex-wrap:wrap;
     gap:40px;
     box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+/* DARK PRODUCT DETAIL */
+body.dark .product-detail{
+    background:#1f2937;
+    box-shadow:0 6px 20px rgba(0,0,0,0.4);
 }
 
 /* Image */
@@ -65,12 +79,20 @@ body{
     margin-bottom:15px;
     font-size:28px;
     color:#333;
+    transition:0.3s;
+}
+body.dark .info h2{
+    color:white;
 }
 .info p.description{
     font-size:16px;
     line-height:1.6;
     margin-bottom:15px;
     color:#555;
+    transition:0.3s;
+}
+body.dark .info p.description{
+    color:#d1d5db;
 }
 .price{
     font-size:26px;
@@ -78,10 +100,16 @@ body{
     color:#e53935;
     margin-bottom:15px;
 }
+body.dark .price{
+    color:#f87171;
+}
 .stock{
     font-size:15px;
     color:#777;
     margin-bottom:20px;
+}
+body.dark .stock{
+    color:#d1d5db;
 }
 
 /* Quantity & Buy */
@@ -100,6 +128,12 @@ body{
     text-align:center;
     border:1px solid #ccc;
     border-radius:5px;
+    transition:0.3s;
+}
+body.dark .quantity input{
+    background:#374151;
+    color:white;
+    border:1px solid #4b5563;
 }
 
 .buy{
@@ -114,6 +148,30 @@ body{
 }
 .buy:hover{
     background:#218838;
+}
+body.dark .buy{
+    background:#2563eb;
+}
+body.dark .buy:hover{
+    background:#1e40af;
+}
+
+/* Dark mode toggle button */
+.dark-btn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    padding:8px 15px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    background:#facc15;
+    font-weight:bold;
+    z-index:999;
+}
+body.dark .dark-btn{
+    background:#2563eb;
+    color:white;
 }
 
 /* Responsive */
@@ -132,6 +190,9 @@ body{
 </style>
 </head>
 <body>
+
+<!-- Dark Mode Toggle -->
+<button class="dark-btn" id="darkBtn">🌙 Dark</button>
 
 <div class="product-detail">
 
@@ -170,6 +231,28 @@ qtyInput.addEventListener('input', ()=>{
     let price = <?php echo $row['price']; ?>;
     buyBtn.href = `singleordder.php?product_id=<?php echo $row['id']; ?>&product_price=${(price*qty).toFixed(2)}&qty=${qty}`;
 });
+
+// Dark Mode
+const darkBtn = document.getElementById('darkBtn');
+
+function toggleDarkMode(){
+    document.body.classList.toggle('dark');
+    if(document.body.classList.contains('dark')){
+        localStorage.setItem('darkMode','enabled');
+        darkBtn.innerHTML = '☀️ Light';
+    }else{
+        localStorage.setItem('darkMode','disabled');
+        darkBtn.innerHTML = '🌙 Dark';
+    }
+}
+
+// Load saved dark mode
+window.onload = function(){
+    if(localStorage.getItem('darkMode') === 'enabled'){
+        document.body.classList.add('dark');
+        darkBtn.innerHTML = '☀️ Light';
+    }
+}
 </script>
 
 </body>
